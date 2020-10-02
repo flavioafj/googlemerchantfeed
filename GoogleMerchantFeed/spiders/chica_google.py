@@ -116,11 +116,14 @@ class BolsaDaChica(scrapy.Spider):
                 cont += 1
                 colors.append(mydict[cont]["attributes"]["attribute_cor"])
             
-            
-            todas_imagensB = todas_imagens
-            colorsB = colors
 
-            print(colors)
+
+            
+            todas_imagensB = todas_imagens.copy()
+            colorsB = colors.copy()
+
+            
+            print(todas_imagens)
 
             for ch in colors:
                 print(ch)
@@ -132,18 +135,21 @@ class BolsaDaChica(scrapy.Spider):
 
                     
                     if ch.lower()[0:len(ch)-1] in image.lower():
-                        #print(ch.lower()[0:len(ch)-1] + " está em " + image.lower())
+                        
+                        print(ch.lower()[0:len(ch)-1] + " está em " + image.lower())
                         todas_imagensB.remove(image)
 
                         try:
+                            
                             colorsB.remove(ch)
 
                         except:
-                            print("A cor " + ch + " tem imagens correspondentes.")
+                            pass
+                            #print("A cor " + ch + " tem imagens correspondentes.")
 
-                        break
-                    #else:
-                        #print(ch.lower()[0:len(ch)-1] + " não está em " + image.lower())
+                        #break
+                    else:
+                        print(ch.lower()[0:len(ch)-1] + " não está em " + image.lower())
                     
 
                 
