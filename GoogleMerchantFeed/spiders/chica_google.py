@@ -8,9 +8,9 @@ adult = bool()
 availability = description= str()
 color = source = str()
 imageLink = condition = isBundle =  ageGroup = gender = str()
-additionalImageLinks = entries = list()
+additionalImageLinks = list()
 google_product_category = title = link = str()
-price = batch = dict()
+price = list()
 batchId = merchantId = num = int(0)
 
 class Product(scrapy.Item):
@@ -46,25 +46,28 @@ class Product(scrapy.Item):
 
 class BolsaDaChica(scrapy.Spider):
     name = "chica_api"
+    custom_settings = {
+        'STATS_DUMP': 'False',
+    }
     start_urls = [
         'https://bolsadachica.com.br/produto/bau-bag/',
-        'https://bolsadachica.com.br/produto/bolsa-bag/',
-        'https://bolsadachica.com.br/produto/bolsa-carol/',
-        'https://bolsadachica.com.br/produto/bolsa-cat/',
-        'https://bolsadachica.com.br/produto/bolsa-tela/',
-        'https://bolsadachica.com.br/produto/bolsa-livia/',
-        'https://bolsadachica.com.br/produto/bolsa-lola/',
-        'https://bolsadachica.com.br/produto/bolsa-lu/',
-        'https://bolsadachica.com.br/produto/bolsa-mila/',
-        'https://bolsadachica.com.br/produto/bolsa-geometrica/',
-        'https://bolsadachica.com.br/produto/bolsa-colori/',
-        'https://bolsadachica.com.br/produto/bolsa-red-dog/',
-        'https://bolsadachica.com.br/produto/carteira-colored-stone/',
-        'https://bolsadachica.com.br/produto/carteira-luna/',
-        'https://bolsadachica.com.br/produto/bolsa-perola/',
-        'https://bolsadachica.com.br/produto/mochila-liza/',
-        'https://bolsadachica.com.br/produto/mochila-scoolbag/',
-        'https://bolsadachica.com.br/produto/bolsa-small-cat/'
+        #'https://bolsadachica.com.br/produto/bolsa-bag/',
+        #'https://bolsadachica.com.br/produto/bolsa-carol/',
+        #'https://bolsadachica.com.br/produto/bolsa-cat/',
+        #'https://bolsadachica.com.br/produto/bolsa-tela/',
+        #'https://bolsadachica.com.br/produto/bolsa-livia/',
+        #'https://bolsadachica.com.br/produto/bolsa-lola/',
+        #'https://bolsadachica.com.br/produto/bolsa-lu/',
+        #'https://bolsadachica.com.br/produto/bolsa-mila/',
+        #'https://bolsadachica.com.br/produto/bolsa-geometrica/',
+        #'https://bolsadachica.com.br/produto/bolsa-colori/',
+        #'https://bolsadachica.com.br/produto/bolsa-red-dog/',
+        #'https://bolsadachica.com.br/produto/carteira-colored-stone/',
+        #'https://bolsadachica.com.br/produto/carteira-luna/',
+        #'https://bolsadachica.com.br/produto/bolsa-perola/',
+        #'https://bolsadachica.com.br/produto/mochila-liza/',
+        #'https://bolsadachica.com.br/produto/mochila-scoolbag/',
+        #'https://bolsadachica.com.br/produto/bolsa-small-cat/'
 
     ]
     
@@ -102,27 +105,48 @@ class BolsaDaChica(scrapy.Spider):
             true = bool(1)
             mydict = eval(produto_e_suas_variacoes)
             tamanho = int(0)
-            colors = list()
+            colors = colorsB = list()
             i = cont = int(-1)
             tamanho = len(mydict)
             ima = bool(True)
             additionalImageLinks = list()
+            batch = dict()
 
-            while cont < tamanho -1:
+            while cont < tamanho - 1:
                 cont += 1
                 colors.append(mydict[cont]["attributes"]["attribute_cor"])
-            print(colors)
             
-            todas_imagensB = todas_imagens.copy()
+            
+            todas_imagensB = todas_imagens
+            colorsB = colors
+
+            print(colors)
 
             for ch in colors:
+                print(ch)
+
+                
 
                 for image in todas_imagens:
+                    
 
                     
                     if ch.lower()[0:len(ch)-1] in image.lower():
-                        
+                        #print(ch.lower()[0:len(ch)-1] + " está em " + image.lower())
                         todas_imagensB.remove(image)
+
+                        try:
+                            colorsB.remove(ch)
+
+                        except:
+                            print("A cor " + ch + " tem imagens correspondentes.")
+
+                        break
+                    #else:
+                        #print(ch.lower()[0:len(ch)-1] + " não está em " + image.lower())
+                    
+
+                
 
                         
             print("imagens excluídas:")
@@ -130,8 +154,6 @@ class BolsaDaChica(scrapy.Spider):
             
             while i < tamanho - 1:
                 i += 1
-
-                
 
                 #id
 
@@ -160,36 +182,43 @@ class BolsaDaChica(scrapy.Spider):
                 batch['imageLink'] = imageLink
                 
 
-                #additionalImageLinks
+                #color
 
                 color = mydict[i]["attributes"]["attribute_cor"]
+
+                print("numero: " + str(i) + "\n")
+                print(mydict[i]["attributes"])
+
+ 
+                              
+                batch['color'] = color
+
                 
-                for image in todas_imagens:
+                #additionalImageLinks
+                
+                if color == colorsB[0]:
+
+                    additionalImageLinks = todas_imagensB.copy()
+
+                else:
+                                  
+                    for image in todas_imagens:
                     
                                        
-                    if color.lower()[0:len(color)-1] in image.lower():
+                        if color.lower()[0:len(color)-1] in image.lower():
                             
-                        #try:
+                            #try:
                             
-                        additionalImageLinks.append(image)
+                            additionalImageLinks.append(image)
                             
                             
-                        #except:
+                            #except:
                             
-                            #additionalImageLinks.append("")
+                                #additionalImageLinks.append("")
 
-                    #if len(additionalImageLinks) == 0 :
-                        
-  
+                                                                
 
-                                
-
-                                
-
-                        
-                                                                  
-
-                    batch['additionalImageLinks'] =  additionalImageLinks
+                batch['additionalImageLinks'] =  additionalImageLinks
                 
 
                 #availability
@@ -257,11 +286,7 @@ class BolsaDaChica(scrapy.Spider):
                 batch['ageGroup'] = ageGroup
 
 
-                #color
-                              
-                batch['color'] = color
-
-            
+         
 
                 #gender
 
@@ -310,22 +335,11 @@ class BolsaDaChica(scrapy.Spider):
                 #merchantId
                 
                 Product2['merchantId'] = "aqi"
-                
-
-                
-
-                
-
+                             
 
                 yield Product2
         
-        """produto = Product()
-        produto['name'] = produto_e_suas_variacoes
-       
 
-       
-        
-        yield produto"""
 
 def limpa(a):
     conta_posi_letra = int(-1)
