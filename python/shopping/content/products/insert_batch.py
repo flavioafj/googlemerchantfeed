@@ -34,38 +34,43 @@ def main(argv):
   merchant_id = config['merchantId']
 
   batch = {
-      'entries': [{
-          'batchId': 123,
-          'merchantId': merchant_id,
-          'method': 'insert',
-          'product': {'additionalImageLinks': ['https://bolsadachica.com.br/wp-content/uploads/2018/04/Mochila-School-Bag-Rato-600x686.jpeg',
-                           'https://bolsadachica.com.br/wp-content/uploads/2018/04/Mochila-School-Bag-Rato-lateral-600x745.jpeg'],
-           'adult': bool(1),
-           'ageGroup': 'adult',
-           'targetCountry': 'BR',
-           'contentLanguage': 'pt',
-           "channel": "online",
-           'offerId': '123',
-           'availability': 'in stock',
-           'color': 'Bege',
-           'condition': 'new',
-           'description': 'A Mochila Schoolbag é admirável, arrebatadora, combina '
-                          'facilmente jeans, camisetas e camisas. Todos os itens que uma '
-                          'mulher necessita para viver poderão ser facilmente colocados '
-                          'dentro dela. Portanto, não deixe nada de fora por causa do '
-                          'tamanho, leve desde roupas a acessórios de higiene pessoal. '
-                          'Ideal para ocasiões de trabalho, academia e viagens. Desse '
-                          'modo, evite o uso desse item em looks minimalistas, ocasiões '
-                          'formais ou naquele primeiro encontro. Utilize-a com cores '
-                          'cores neutras, estampas e listras.\n'
-                          'Material: couro sintético',
-           'gender': 'female',
-           'googleProductCategory': '100',
-           'imageLink': 'https:\\/\\/bolsadachica.com.br\\/wp-content\\/uploads\\/2018\\/04\\/foto-40.jpg',
-           'isBundle': 'no',
-           'link': 'https://bolsadachica.com.br/produto/mochila-scoolbag/',
-           'price': {'currency': 'BRL', 'value': '160.00'},
-           'title': 'Mochila Schoolbag'},
+      'entries': [{'batchId': 8,
+ 'merchantId': merchant_id,
+ 'method': 'insert',
+ 'product': {'additionalImageLinks': ['https://bolsadachica.com.br/wp-content/uploads/2018/04/foto-9-600x400.jpg',
+                                      'https://bolsadachica.com.br/wp-content/uploads/2018/04/foto-10-600x400.jpg',
+                                      'https://bolsadachica.com.br/wp-content/uploads/2018/04/foto-67-600x400.jpg',
+                                      'https://bolsadachica.com.br/wp-content/uploads/2018/04/bolsa-lu-rosa-fundo-branco-e1600130113442-300x300.jpeg'],
+             'adult': True,
+             'ageGroup': 'adult',
+             'availability': 'out of stock',
+             'channel': 'online',
+             'color': 'Caramelo',
+             'condition': 'new',
+             'contentLanguage': 'pt',
+             'description': 'A Tela é uma bolsa feminina estilosa e '
+                            'poderosa\xa0 e você pode usá-la em todas as '
+                            'oportunidades que tiver para sair de casa. Além '
+                            'de\xa0todos os itens pessoais que você leva, sem '
+                            'se preocupar com o tamanho ou volume pois essa '
+                            'bolsa possui um amplo espaço\xa0 interno, ela '
+                            'combina facilmente. Portanto, calças brancas, '
+                            'pretas, jeans, vestidos ou saias são muito '
+                            'bem-vindos com essa linda bolsa.\xa0 Utilize-a '
+                            'com cores claras ou escuras. Dessa forma, preto e '
+                            'branco são escolhas certeira, evite cores quentes '
+                            'tais como amarelo ou vermelho.\n'
+                            'Material: couro sintético',
+             'gender': 'female',
+             'google_product_category': '3032',
+             'imageLink': 'https:\\/\\/bolsadachica.com.br\\/wp-content\\/uploads\\/2018\\/04\\/foto-9.jpg',
+             'isBundle': 'no',
+             'link': 'https://bolsadachica.com.br/produto/bolsa-tela/',
+             'offerId': 312,
+             'price': {'currency': 'BRL', 'value': '100.00'},
+             'source': 'api',
+             'targetCountry': 'BR',
+             'title': 'Bolsa Feminina Tela'},
           } ],
   }
 

@@ -51,23 +51,23 @@ class BolsaDaChica(scrapy.Spider):
     }
     start_urls = [
         'https://bolsadachica.com.br/produto/bau-bag/',
-        #'https://bolsadachica.com.br/produto/bolsa-bag/',
-        #'https://bolsadachica.com.br/produto/bolsa-carol/',
-        #'https://bolsadachica.com.br/produto/bolsa-cat/',
-        #'https://bolsadachica.com.br/produto/bolsa-tela/',
-        #'https://bolsadachica.com.br/produto/bolsa-livia/',
-        #'https://bolsadachica.com.br/produto/bolsa-lola/',
-        #'https://bolsadachica.com.br/produto/bolsa-lu/',
-        #'https://bolsadachica.com.br/produto/bolsa-mila/',
-        #'https://bolsadachica.com.br/produto/bolsa-geometrica/',
-        #'https://bolsadachica.com.br/produto/bolsa-colori/',
-        #'https://bolsadachica.com.br/produto/bolsa-red-dog/',
-        #'https://bolsadachica.com.br/produto/carteira-colored-stone/',
-        #'https://bolsadachica.com.br/produto/carteira-luna/',
-        #'https://bolsadachica.com.br/produto/bolsa-perola/',
-        #'https://bolsadachica.com.br/produto/mochila-liza/',
-        #'https://bolsadachica.com.br/produto/mochila-scoolbag/',
-        #'https://bolsadachica.com.br/produto/bolsa-small-cat/'
+        'https://bolsadachica.com.br/produto/bolsa-bag/',
+        'https://bolsadachica.com.br/produto/bolsa-carol/',
+        'https://bolsadachica.com.br/produto/bolsa-cat/',
+        'https://bolsadachica.com.br/produto/bolsa-tela/',
+        'https://bolsadachica.com.br/produto/bolsa-livia/',
+        'https://bolsadachica.com.br/produto/bolsa-lola/',
+        'https://bolsadachica.com.br/produto/bolsa-lu/',
+        'https://bolsadachica.com.br/produto/bolsa-mila/',
+        'https://bolsadachica.com.br/produto/bolsa-geometrica/',
+        'https://bolsadachica.com.br/produto/bolsa-colori/',
+        'https://bolsadachica.com.br/produto/bolsa-red-dog/',
+        'https://bolsadachica.com.br/produto/carteira-colored-stone/',
+        'https://bolsadachica.com.br/produto/carteira-luna/',
+        'https://bolsadachica.com.br/produto/bolsa-perola/',
+        'https://bolsadachica.com.br/produto/mochila-liza/',
+        'https://bolsadachica.com.br/produto/mochila-scoolbag/',
+        'https://bolsadachica.com.br/produto/bolsa-small-cat/'
 
     ]
     
@@ -110,6 +110,7 @@ class BolsaDaChica(scrapy.Spider):
             tamanho = len(mydict)
             ima = bool(True)
             additionalImageLinks = list()
+            additionalImageLinks.clear()
             batch = dict()
 
             while cont < tamanho - 1:
@@ -126,7 +127,7 @@ class BolsaDaChica(scrapy.Spider):
             print(todas_imagens)
 
             for ch in colors:
-                print(ch)
+                #print(ch)
 
                 
 
@@ -136,7 +137,7 @@ class BolsaDaChica(scrapy.Spider):
                     
                     if ch.lower()[0:len(ch)-1] in image.lower():
                         
-                        print(ch.lower()[0:len(ch)-1] + " está em " + image.lower())
+                        #print(ch.lower()[0:len(ch)-1] + " está em " + image.lower())
                         todas_imagensB.remove(image)
 
                         try:
@@ -148,15 +149,15 @@ class BolsaDaChica(scrapy.Spider):
                             #print("A cor " + ch + " tem imagens correspondentes.")
 
                         #break
-                    else:
-                        print(ch.lower()[0:len(ch)-1] + " não está em " + image.lower())
+                    #else:
+                        #print(ch.lower()[0:len(ch)-1] + " não está em " + image.lower())
                     
 
                 
 
                         
-            print("imagens excluídas:")
-            print(todas_imagensB)
+            #print("imagens excluídas:")
+            #print(todas_imagensB)
             
             while i < tamanho - 1:
                 i += 1
@@ -203,15 +204,18 @@ class BolsaDaChica(scrapy.Spider):
                 #additionalImageLinks
                 
                 if color == colorsB[0]:
+                    #print(color + " é igual a " + colorsB[0] + "?")
 
                     additionalImageLinks = todas_imagensB.copy()
 
                 else:
+                    additionalImageLinks.clear()
                                   
                     for image in todas_imagens:
                     
                                        
                         if color.lower()[0:len(color)-1] in image.lower():
+                            #print("Estamos no loop de baixo: " + color.lower()[0:len(color)-1] + " está em " + image.lower())
                             
                             #try:
                             
