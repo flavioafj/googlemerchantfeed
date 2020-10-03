@@ -6,7 +6,7 @@ global num
 offerId = str()
 adult = bool()
 availability = description= str()
-color = source = str()
+color = str()
 imageLink = condition = isBundle =  ageGroup = gender = str()
 additionalImageLinks = list()
 google_product_category = title = link = str()
@@ -17,7 +17,7 @@ class Product(scrapy.Item):
     
     
     batchId = scrapy.Field()
-    merchantId = scrapy.Field()
+    merchantId = scrapy.Field(serializer=int)
     method = scrapy.Field()
     ageGroup = scrapy.Field()
     isBundle = scrapy.Field()
@@ -35,7 +35,6 @@ class Product(scrapy.Item):
     availability = scrapy.Field()
     color = scrapy.Field()
     gender = scrapy.Field()
-    source = scrapy.Field()
     additionalImageLinks = scrapy.Field(serializer=list)
 
 
@@ -112,6 +111,7 @@ class BolsaDaChica(scrapy.Spider):
             additionalImageLinks = list()
             additionalImageLinks.clear()
             batch = dict()
+            nume = str()
 
             while cont < tamanho - 1:
                 cont += 1
@@ -305,13 +305,6 @@ class BolsaDaChica(scrapy.Spider):
                 batch['gender'] = gender
                 
                 
-                
-
-                #source
-
-                source = "api"
-                batch['source'] = source
-
 
                 #targetCountry
                 
@@ -340,12 +333,17 @@ class BolsaDaChica(scrapy.Spider):
 
                 #batchId
 
+                if i != 0:
+
+                    nume = str(num) + str(i)
+                    num = int(nume)
+
                 Product2['batchId'] = num
 
                 #merchantId
                 
-                Product2['merchantId'] = "aqi"
-                             
+                Product2['merchantId'] = 227343072
+                
 
                 yield Product2
         

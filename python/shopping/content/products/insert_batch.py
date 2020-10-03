@@ -68,7 +68,6 @@ def main(argv):
              'link': 'https://bolsadachica.com.br/produto/bolsa-tela/',
              'offerId': 312,
              'price': {'currency': 'BRL', 'value': '100.00'},
-             'source': 'api',
              'targetCountry': 'BR',
              'title': 'Bolsa Feminina Tela'},
           } ],
