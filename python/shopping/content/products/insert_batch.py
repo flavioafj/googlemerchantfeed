@@ -27,6 +27,9 @@ from six.moves import range
 # Number of products to insert.
 BATCH_SIZE = 1
 
+with open('produtos.json') as json_file:
+  produtos = json.loads(json_file.read())
+
 
 def main(argv):
   # Authenticate and construct service.
@@ -34,43 +37,7 @@ def main(argv):
   merchant_id = config['merchantId']
 
   batch = {
-      'entries': [{'batchId': 8,
- 'merchantId': merchant_id,
- 'method': 'insert',
- 'product': {'additionalImageLinks': ['https://bolsadachica.com.br/wp-content/uploads/2018/04/foto-9-600x400.jpg',
-                                      'https://bolsadachica.com.br/wp-content/uploads/2018/04/foto-10-600x400.jpg',
-                                      'https://bolsadachica.com.br/wp-content/uploads/2018/04/foto-67-600x400.jpg',
-                                      'https://bolsadachica.com.br/wp-content/uploads/2018/04/bolsa-lu-rosa-fundo-branco-e1600130113442-300x300.jpeg'],
-             'adult': True,
-             'ageGroup': 'adult',
-             'availability': 'out of stock',
-             'channel': 'online',
-             'color': 'Caramelo',
-             'condition': 'new',
-             'contentLanguage': 'pt',
-             'description': 'A Tela é uma bolsa feminina estilosa e '
-                            'poderosa\xa0 e você pode usá-la em todas as '
-                            'oportunidades que tiver para sair de casa. Além '
-                            'de\xa0todos os itens pessoais que você leva, sem '
-                            'se preocupar com o tamanho ou volume pois essa '
-                            'bolsa possui um amplo espaço\xa0 interno, ela '
-                            'combina facilmente. Portanto, calças brancas, '
-                            'pretas, jeans, vestidos ou saias são muito '
-                            'bem-vindos com essa linda bolsa.\xa0 Utilize-a '
-                            'com cores claras ou escuras. Dessa forma, preto e '
-                            'branco são escolhas certeira, evite cores quentes '
-                            'tais como amarelo ou vermelho.\n'
-                            'Material: couro sintético',
-             'gender': 'female',
-             'google_product_category': '3032',
-             'imageLink': 'https:\\/\\/bolsadachica.com.br\\/wp-content\\/uploads\\/2018\\/04\\/foto-9.jpg',
-             'isBundle': 'no',
-             'link': 'https://bolsadachica.com.br/produto/bolsa-tela/',
-             'offerId': 312,
-             'price': {'currency': 'BRL', 'value': '100.00'},
-             'targetCountry': 'BR',
-             'title': 'Bolsa Feminina Tela'},
-          } ],
+      'entries': produtos
   }
 
   request = service.products().custombatch(body=batch)

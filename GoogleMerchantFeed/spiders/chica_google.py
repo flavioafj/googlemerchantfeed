@@ -9,7 +9,7 @@ availability = description= str()
 color = str()
 imageLink = condition = isBundle =  ageGroup = gender = str()
 additionalImageLinks = list()
-google_product_category = title = link = str()
+googleProductCategory = title = link = str()
 price = list()
 batchId = merchantId = num = int(0)
 
@@ -23,7 +23,7 @@ class Product(scrapy.Item):
     isBundle = scrapy.Field()
     adult = scrapy.Field()
     condition = scrapy.Field()
-    google_product_category = scrapy.Field()
+    googleProductCategory = scrapy.Field()
     title = scrapy.Field()
     price = scrapy.Field(serializer=dict)
     product = scrapy.Field(serializer=dict)
@@ -253,18 +253,18 @@ class BolsaDaChica(scrapy.Spider):
                 batch['price'] = price
                 
 
-                #google_product_category
+                #googleProductCategory
 
                 if 'Carteira' in title:
-                    google_product_category = "2668"
+                    googleProductCategory = "2668"
 
                 elif 'Mochila' in title:
-                    google_product_category = "100"
+                    googleProductCategory = "100"
 
                 else:
-                    google_product_category = "3032"
+                    googleProductCategory = "3032"
 
-                batch['google_product_category'] = google_product_category
+                batch['googleProductCategory'] = googleProductCategory
       
 
                 #condition
@@ -335,7 +335,12 @@ class BolsaDaChica(scrapy.Spider):
 
                 if i != 0:
 
-                    nume = str(num) + str(i)
+                    if num == 0 or num == None:
+                        nume = str("0") + str(i)
+
+                    else:
+                        nume = str(num) + str(i)
+
                     num = int(nume)
 
                 Product2['batchId'] = num
