@@ -1,0 +1,19 @@
+<html><body>
+<script type="text/javascript" src="produtos.json">
+ var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      var pro = this.responseText;
+
+
+document.getElementById("princ").innerHTML = pro[0]['title']
+    }
+  };
+  xhttp.open("GET", "produtos.json", true);
+  xhttp.send();
+</script>
+<div = id='princ'></div>
+
+</body>
+</html>

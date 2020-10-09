@@ -1,0 +1,7 @@
+Para copiar as bolsas do site para o Google Merchant Feed
+
+1) Abra o Anaconda e digite cd googlemerchantfeed/python
+2) Depois env\Scripts\activate
+3) Finalmente scrapy crawl chica_api -o produtos.json
+
+4) Corrija o arquivo produtos.json 
