@@ -66,7 +66,9 @@ class BolsaDaChica(scrapy.Spider):
         'https://bolsadachica.com.br/produto/bolsa-perola/',
         'https://bolsadachica.com.br/produto/mochila-liza/',
         'https://bolsadachica.com.br/produto/mochila-scoolbag/',
-        'https://bolsadachica.com.br/produto/bolsa-small-cat/'
+        'https://bolsadachica.com.br/produto/bolsa-small-cat/',
+        'https://bolsadachica.com.br/produto/bolsa-cassia/',
+        'https://bolsadachica.com.br/produto/bolsa-nadia/'
 
     ]
     
@@ -86,7 +88,7 @@ class BolsaDaChica(scrapy.Spider):
         todas_imagens = response.css("#main img[src*='600']").xpath('@src').getall()
         
 
-        price = response.css(".woocommerce-Price-amount.amount::text").get()
+        price = response.css(".woocommerce-Price-amount.amount bdi::text").get()
         price = price.replace(",", ".")
         price = {
             'value': price,
@@ -202,29 +204,32 @@ class BolsaDaChica(scrapy.Spider):
 
                 
                 #additionalImageLinks
+                try:
                 
-                if color == colorsB[0]:
-                    #print(color + " é igual a " + colorsB[0] + "?")
+                    if color == colorsB[0]:
+                        #print(color + " é igual a " + colorsB[0] + "?")
 
-                    additionalImageLinks = todas_imagensB.copy()
+                        additionalImageLinks = todas_imagensB.copy()
 
-                else:
-                    additionalImageLinks.clear()
+                    else:
+                        additionalImageLinks.clear()
                                   
-                    for image in todas_imagens:
+                        for image in todas_imagens:
                     
                                        
-                        if color.lower()[0:len(color)-1] in image.lower():
+                            if color.lower()[0:len(color)-1] in image.lower():
                             #print("Estamos no loop de baixo: " + color.lower()[0:len(color)-1] + " está em " + image.lower())
                             
                             #try:
                             
-                            additionalImageLinks.append(image)
+                                additionalImageLinks.append(image)
                             
                             
-                            #except:
+                except:
+
+                    additionalImageLinks = todas_imagensB.copy()
                             
-                                #additionalImageLinks.append("")
+                               
 
                                                                 
 
