@@ -4,4 +4,7 @@ Para copiar as bolsas do site para o Google Merchant Feed
 2) Depois env\Scripts\activate
 3) Finalmente scrapy crawl chica_api -o produtos.json
 
-4) Corrija o arquivo produtos.json 
+4) Corrija o arquivo produtos.json ( use o arquivo visual.html para visualizar, mas antes use um localhost - digite 
+py -m http.server  no diretório do arquivo) através do site https://jsoneditoronline.org/
+
+5) No diretório googlemerchantfeed/python execute py -m shopping.content.products.insert_batch

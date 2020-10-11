@@ -1,19 +1,69 @@
 <html><body>
+
+<button value='começa' type='buttom' onclick='comeca()'>Começa</button>
+<button value='começa' type='buttom' onclick='ide()'>Id</button>
+<div = id='identi'></div>
+<div = id='princ'></div>
+
+
+
 <script type="text/javascript" src="produtos.json">
- var xhttp = new XMLHttpRequest();
+function comeca(){
+    var xhttp = new XMLHttpRequest();
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       
-      var pro = this.responseText;
+      var pro = JSON.parse(this.responseText);
+for (i in pro){
+var para = document.createElement("p");
+var node = document.createTextNode(i + " " + pro[i]['product']['title']);
+para.appendChild(node);
+var imp = document.createElement("img");
+imp.src = pro[i]['product']['imageLink'];
+imp.style.width = 300;
+var div = document.createElement("div"); 
+var ims = pro[i]['product']['additionalImageLinks']
+for (f in ims){
 
+var im = document.createElement("img");
+im.src = ims[f];
+im.style.width = 30;
+div.appendChild(im);
+}
 
-document.getElementById("princ").innerHTML = pro[0]['title']
+document.getElementById("princ").appendChild(para);
+document.getElementById("princ").appendChild(imp);
+document.getElementById("princ").appendChild(div);
+}
+
     }
   };
   xhttp.open("GET", "produtos.json", true);
   xhttp.send();
+}
+
+
+function ide(){
+    var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      
+      var pro = JSON.parse(this.responseText);
+for (i in pro){
+
+var node = document.createTextNode(i + " - " + pro[i]['product']['offerId'] + " / ");
+
+document.getElementById("identi").appendChild(node);
+}
+
+    }
+  };
+  xhttp.open("GET", "produtos.json", true);
+  xhttp.send();
+}
+
+
 </script>
-<div = id='princ'></div>
 
 </body>
 </html>
