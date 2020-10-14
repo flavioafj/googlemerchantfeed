@@ -27,7 +27,7 @@ from six.moves import range
 # Number of products to insert.
 BATCH_SIZE = 1
 
-with open('produtos.json') as json_file:
+with open('produtos.json', encoding="utf8") as json_file:
   produtos = json.loads(json_file.read())
 
 
