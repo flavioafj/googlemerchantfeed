@@ -49,26 +49,31 @@ class BolsaDaChica(scrapy.Spider):
         'STATS_DUMP': 'False',
     }
     start_urls = [
-        'https://bolsadachica.com.br/produto/bau-bag/',
-        'https://bolsadachica.com.br/produto/bolsa-bag/',
-        'https://bolsadachica.com.br/produto/bolsa-carol/',
-        'https://bolsadachica.com.br/produto/bolsa-cat/',
-        'https://bolsadachica.com.br/produto/bolsa-tela/',
-        'https://bolsadachica.com.br/produto/bolsa-livia/',
-        'https://bolsadachica.com.br/produto/bolsa-lola/',
-        'https://bolsadachica.com.br/produto/bolsa-lu/',
-        'https://bolsadachica.com.br/produto/bolsa-mila/',
-        'https://bolsadachica.com.br/produto/bolsa-geometrica/',
-        'https://bolsadachica.com.br/produto/bolsa-colori/',
-        'https://bolsadachica.com.br/produto/bolsa-red-dog/',
-        'https://bolsadachica.com.br/produto/carteira-colored-stone/',
-        'https://bolsadachica.com.br/produto/carteira-luna/',
-        'https://bolsadachica.com.br/produto/bolsa-perola/',
-        'https://bolsadachica.com.br/produto/mochila-liza/',
-        'https://bolsadachica.com.br/produto/mochila-scoolbag/',
-        'https://bolsadachica.com.br/produto/bolsa-small-cat/',
+        #'https://bolsadachica.com.br/produto/bau-bag/',
+        #'https://bolsadachica.com.br/produto/bolsa-bag/',
+        #'https://bolsadachica.com.br/produto/bolsa-carol/',
+        #'https://bolsadachica.com.br/produto/bolsa-cat/',
+        #'https://bolsadachica.com.br/produto/bolsa-tela/',
+        #'https://bolsadachica.com.br/produto/bolsa-livia/',
+        #'https://bolsadachica.com.br/produto/bolsa-lola/',
+        #'https://bolsadachica.com.br/produto/bolsa-lu/',
+        #'https://bolsadachica.com.br/produto/bolsa-mila/',
+        #'https://bolsadachica.com.br/produto/bolsa-geometrica/',
+        #'https://bolsadachica.com.br/produto/bolsa-colori/',
+        #'https://bolsadachica.com.br/produto/bolsa-red-dog/',
+        #'https://bolsadachica.com.br/produto/carteira-colored-stone/',
+        #'https://bolsadachica.com.br/produto/carteira-luna/',
+        #'https://bolsadachica.com.br/produto/bolsa-perola/',
+        #'https://bolsadachica.com.br/produto/mochila-liza/',
+        #'https://bolsadachica.com.br/produto/mochila-scoolbag/',
+        #'https://bolsadachica.com.br/produto/bolsa-small-cat/',
+        #'https://bolsadachica.com.br/produto/bolsa-cassia/',
+        #'https://bolsadachica.com.br/produto/bolsa-nadia/',
+        'https://bolsadachica.com.br/produto/carteira-ester/',
+        'https://bolsadachica.com.br/produto/bolsa-lucy/',
+        'https://bolsadachica.com.br/produto/bolsa-nina/',
+        'https://bolsadachica.com.br/produto/bolsa-luana/',
         'https://bolsadachica.com.br/produto/bolsa-cassia/',
-        'https://bolsadachica.com.br/produto/bolsa-nadia/'
 
     ]
     
@@ -100,20 +105,24 @@ class BolsaDaChica(scrapy.Spider):
 
         
         Product2 = Product()
+
+        false = bool(0)
+        true = bool(1)
+        
+        tamanho = int(0)
+        colors = colorsB = list()
+        i = cont = int(-1)
+        
+        ima = bool(True)
+        additionalImageLinks = list()
+        additionalImageLinks.clear()
+        batch = dict()
+        nume = str()
         
         if type(produto_e_suas_variacoes)== str:
-            false = bool(0)
-            true = bool(1)
             mydict = eval(produto_e_suas_variacoes)
-            tamanho = int(0)
-            colors = colorsB = list()
-            i = cont = int(-1)
             tamanho = len(mydict)
-            ima = bool(True)
-            additionalImageLinks = list()
-            additionalImageLinks.clear()
-            batch = dict()
-            nume = str()
+
 
             while cont < tamanho - 1:
                 cont += 1
@@ -165,10 +174,10 @@ class BolsaDaChica(scrapy.Spider):
                 i += 1
 
                 #id
-
                 offerId = mydict[i]["variation_id"]
                 batch['offerId'] = offerId
 
+                
                 #title
 
                 title = response.css(".entry-title::text").get()
@@ -341,10 +350,10 @@ class BolsaDaChica(scrapy.Spider):
                 if i != 0:
 
                     if num == 0 or num == None:
-                        nume = str("0") + str(i)
+                        nume = str("20") + str(i)
 
                     else:
-                        nume = str(num) + str(i)
+                        nume = "2" + str(num) + str(i)
 
                     num = int(nume)
 
@@ -356,6 +365,175 @@ class BolsaDaChica(scrapy.Spider):
                 
 
                 yield Product2
+
+        else:
+            #id
+            
+
+            offerId = response.css("[id^='product-']").xpath("@id").get()
+            offerId.replace("product-", "")
+            batch['offerId'] = offerId
+
+
+
+            #title
+
+            title = response.css(".entry-title::text").get()
+            batch['title'] = title
+
+            #description
+
+            description = limpa(description)
+            batch['description'] = description
+
+            #link
+
+            link = response.url
+            batch['link'] = link
+
+
+            #imageLink 
+
+            imageLink = response.css("[id^='product-'] figure img").xpath('@src').get()
+            batch['imageLink'] = imageLink
+                
+
+            #color
+
+            color = description.split(" ")
+            contar = int(0)
+            for c in color:
+                contar += 1
+                if c == 'cor':
+                    
+                    batch['color'] = color[contar]
+
+                
+            #additionalImageLinks
+            additionalImageLinks = todas_imagens.copy()
+                            
+            batch['additionalImageLinks'] =  additionalImageLinks
+                
+
+            #availability
+
+            txt = response.css(".stock::text").get()
+            x = re.findall("[0-9]", txt)
+            availability = str("0")
+                
+            for to in x:
+                availability += to
+
+            if int(availability)>0:
+                batch['availability'] = "in stock"
+
+            else:
+
+                batch['availability'] = "out of stock"
+                
+
+            #price
+
+            batch['price'] = price
+                
+
+            #googleProductCategory
+
+            if 'Carteira' in title:
+                googleProductCategory = "2668"
+
+            elif 'Mochila' in title:
+                googleProductCategory = "100"
+
+            else:
+                googleProductCategory = "3032"
+
+            batch['googleProductCategory'] = googleProductCategory
+      
+
+            #condition
+
+            condition = "new"
+
+            batch['condition'] = condition
+
+
+            #adult
+
+            adult = bool(1)
+
+            batch['adult'] = adult
+                    
+
+            #isBundle
+
+            isBundle = "no"
+
+            batch['isBundle'] = isBundle
+
+
+
+            #ageGroup
+
+            ageGroup = "adult"
+
+            batch['ageGroup'] = ageGroup
+
+
+         
+
+            #gender
+
+            gender = "female"
+
+            batch['gender'] = gender
+                
+                
+
+            #targetCountry
+                
+            batch['targetCountry'] = 'BR'
+
+
+            # contentLanguage
+                
+            batch['contentLanguage'] = 'pt'
+
+
+            #channel
+                
+            batch["channel"] = "online"
+
+                
+
+            #product
+
+            Product2['product'] = batch
+                
+
+            #method
+
+            Product2['method'] = 'insert'
+
+            #batchId
+
+            if num == 0 or num == None:
+                nume = str("20") 
+
+            else:
+                nume = "2" + str(num) 
+
+            num = int(nume)
+
+            Product2['batchId'] = num
+
+            #merchantId
+                
+            Product2['merchantId'] = 227343072
+                
+
+            yield Product2
+            
         
 
 
